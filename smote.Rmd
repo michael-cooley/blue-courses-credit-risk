@@ -1,0 +1,50 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+libraries 
+
+```{r}
+# install.packages('smotefamily')
+library(smotefamily)
+library(magrittr)
+library(data.table)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+```{r}
+data_example = data.table(sample_generator(10000,ratio = 0.80))
+data_example
+```
+```{r}
+data_example[, .N, by=result][order(result)]
+```
+
+```{r}
+genData = SMOTE(data_example[,.(X1, X2)],data_example[,result])
+genData
+```
+```{r}
+data_example_mod <- data.table(genData$data)
+data_example_mod
+```
+```{r}
+data_example_mod[, .N, by=class][order(class)]
+```
+```{r}
+genData_2 = SMOTE(data_example[,.(X1, X2)],data_example[,result],K=7)
+genData_2
+```
+```{r}
+data_example_mod_2 <- data.table(genData_2$data)
+data_example_mod_2
+```
+```{r}
+data_example_mod_2[, .N, by=class][order(class)]
+```
+
